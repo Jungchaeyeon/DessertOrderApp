@@ -2,8 +2,6 @@ package com.jcy.dessertorderapp.util.provider
 
 import android.content.Context
 import android.content.res.ColorStateList
-import androidx.annotation.ColorRes
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 
 class DefaultResourceProvider(

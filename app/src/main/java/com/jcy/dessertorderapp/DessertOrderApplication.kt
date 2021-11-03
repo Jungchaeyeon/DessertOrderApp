@@ -2,11 +2,17 @@ package com.jcy.dessertorderapp
 
 import android.app.Application
 import android.content.Context
+import com.jcy.dessertorderapp.di.appModule
+import org.koin.core.context.startKoin
 
 class DessertOrderApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = this
+
+        startKoin {
+            modules(appModule)
+        }
     }
 
     override fun onTerminate() {
