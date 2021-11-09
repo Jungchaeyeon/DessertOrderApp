@@ -1,6 +1,5 @@
 package com.jcy.dessertorderapp.screen.main.home
 
-import androidx.viewpager.widget.PagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jcy.dessertorderapp.databinding.FragmentHomeBinding
 import com.jcy.dessertorderapp.screen.base.BaseFragment
@@ -28,7 +27,6 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
             val restaurantListFragmentList = restaurantCategories.map{
                 RestaurantListFragment.newInstance(it)
             }
-
             viewPagerAdapter = RestaurantListFragmentPagerAdapter(
                 this@HomeFragment,
                 restaurantListFragmentList

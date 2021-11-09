@@ -8,8 +8,7 @@ class RestaurantListFragmentPagerAdapter(
     fragment: Fragment,
     val fragmentList: List<RestaurantListFragment>
 ): FragmentStateAdapter(fragment) {
+
     override fun getItemCount(): Int = fragmentList.size
-
     override fun createFragment(position: Int): Fragment= fragmentList[position]
-
 }
