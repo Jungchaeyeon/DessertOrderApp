@@ -1,4 +1,10 @@
 package com.jcy.dessertorderapp.data.repository
 
-interface Repository {
+import com.jcy.dessertorderapp.data.entity.RestaurantEntity
+import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
+
+interface RestaurantRepository {
+    suspend fun getList(
+        restaurantCategory: RestaurantCategory
+    ): List<RestaurantEntity>
 }
