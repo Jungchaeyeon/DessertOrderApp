@@ -62,5 +62,7 @@
     <string name="image_preview">미리보기</string>
     <string name="delete">삭제</string>
     <string name="confirm">확인</string>
+    <string name="plz_setup_your_location_permission">위치 권한을 설정해주세요.</string>
+    <string name="cannot_assigned_permission">권한을 받지 못했습니다.</string>
 
 </resources>
