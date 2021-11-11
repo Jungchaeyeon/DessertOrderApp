@@ -8,8 +8,11 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jcy.dessertorderapp.R
+import com.jcy.dessertorderapp.data.entity.LocationLatLngEntity
 import com.jcy.dessertorderapp.databinding.FragmentHomeBinding
 import com.jcy.dessertorderapp.screen.base.BaseFragment
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
@@ -28,6 +31,7 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
     private lateinit var locationManager: LocationManager
 
     private lateinit var myLocationListener: MyLocationlistener
+
     private val locationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ permissions->
             val responsePermissions = permissions.entries.filter {
@@ -51,9 +55,8 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
 
     override fun initViews() {
         super.initViews()
-        initViewPager()
     }
-    private fun initViewPager() = with(binding){
+    private fun initViewPager(locationLatLngEntity: LocationLatLngEntity) = with(binding){
         val restaurantCategories = RestaurantCategory.values()
 
         if(::viewPagerAdapter.isInitialized.not()){
@@ -74,8 +77,28 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
 
     override fun observeData() = viewModel.homeStateLiveData.observe(viewLifecycleOwner){
         when(it){
-            HomeState.Unititialized ->{ //초기화 되어있지 않으면
+            is HomeState.Unititialized ->{ //초기화 되어있지 않으면
                 getMyLocation()
+            }
+            is HomeState.Loading ->{
+                binding.locationLoading.isVisible = true
+                binding.locationTitle.text = getString(R.string.loading)
+            }
+            is HomeState.Success ->{
+                binding.locationLoading.isGone = true
+                binding.locationTitle.text = it.mapSearchInfoEntity.fullAddress
+                binding.tabLayout.isVisible = true
+                binding.filterScrollView.isVisible = true
+                binding.viewPager.isVisible = true
+                initViewPager(it.mapSearchInfoEntity.locationLatLngEntity)
+            }
+            is HomeState.Error ->{
+                binding.locationLoading.isGone = true
+                binding.locationTitle.text ="위치정보 없음"
+                binding.locationTitle.setOnClickListener {
+                    getMyLocation()
+                }
+                Toast.makeText(requireContext(), it.messageId, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -124,7 +147,13 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
     }
     inner class MyLocationlistener: LocationListener{
         override fun onLocationChanged(location: Location) {
-            binding.locationTitle.text = "${location.latitude}, ${location.longitude}"
+//            binding.locationTitle.text = "${location.latitude}, ${location.longitude}"
+            viewModel.loadReverseGeoInfomation(
+                LocationLatLngEntity(
+                    location.latitude,
+                    location.longitude
+                )
+            )
             removeLocationListener()
         }
     }
