@@ -2,6 +2,8 @@ package com.jcy.dessertorderapp.di
 
 import com.jcy.dessertorderapp.data.repository.DefaultRestaurantRepository
 import com.jcy.dessertorderapp.data.repository.RestaurantRepository
+import com.jcy.dessertorderapp.data.repository.map.DefaultMapRepository
+import com.jcy.dessertorderapp.data.repository.map.MapRepository
 import com.jcy.dessertorderapp.screen.main.home.HomeViewModel
 import com.jcy.dessertorderapp.screen.main.my.MyViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
@@ -15,16 +17,18 @@ import org.koin.dsl.module
 
 val appModule = module {
 
-    viewModel{ HomeViewModel() }
+    viewModel{ HomeViewModel(get()) }
     viewModel { MyViewModel() }
     viewModel { (restaurantCategory: RestaurantCategory) -> RestaurantListViewModel(restaurantCategory, get()) }
 
+    single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<RestaurantRepository> { DefaultRestaurantRepository(get(),get())}
 
     single { provideGsonConverterFactory() }
     single { buildOkHttpClient() }
 
-    single { provideRetrofit(get(),get()) }
+    single { provideMapRetrofit(get(),get())}
+    single { provideMapApiService(get()) }
 
     single<ResourceProvider>{ DefaultResourceProvider(androidApplication())}
     single { Dispatchers.IO }

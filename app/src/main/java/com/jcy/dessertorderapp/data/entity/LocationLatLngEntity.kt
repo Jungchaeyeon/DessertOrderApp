@@ -1,0 +1,11 @@
+package com.jcy.dessertorderapp.data.entity
+
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class LocationLatLngEntity (
+    val latitude : Double,
+    val longitude: Double,
+    override val id: Long= -1,
+): Entity, Parcelable
