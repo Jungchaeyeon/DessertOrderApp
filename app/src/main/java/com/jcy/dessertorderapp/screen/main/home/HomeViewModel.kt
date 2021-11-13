@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.jcy.dessertorderapp.R
 import com.jcy.dessertorderapp.data.entity.LocationLatLngEntity
+import com.jcy.dessertorderapp.data.entity.MapSearchInfoEntity
 import com.jcy.dessertorderapp.data.repository.map.MapRepository
 import com.jcy.dessertorderapp.screen.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -12,6 +13,9 @@ class HomeViewModel(
     private val mapRepository: MapRepository
 ): BaseViewModel() {
 
+    companion object{
+        const val MY_LOCATION_KEY = "MyLocation"
+    }
     val homeStateLiveData = MutableLiveData<HomeState>(HomeState.Unititialized)
 
     fun loadReverseGeoInfomation(locationLatLngEntity: LocationLatLngEntity)
@@ -28,5 +32,12 @@ class HomeViewModel(
             )
         }
     }
-
+    fun getMapSearchInfo(): MapSearchInfoEntity? {
+        when(val data = homeStateLiveData.value){
+            is HomeState.Success -> {
+                return data.mapSearchInfoEntity
+            }
+        }
+        return null
+    }
 }

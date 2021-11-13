@@ -2,7 +2,9 @@ package com.jcy.dessertorderapp.screen.main.home
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -13,10 +15,12 @@ import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jcy.dessertorderapp.R
 import com.jcy.dessertorderapp.data.entity.LocationLatLngEntity
+import com.jcy.dessertorderapp.data.entity.MapSearchInfoEntity
 import com.jcy.dessertorderapp.databinding.FragmentHomeBinding
 import com.jcy.dessertorderapp.screen.base.BaseFragment
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListFragment
+import com.jcy.dessertorderapp.screen.mylocation.MyLocationActivity
 import com.jcy.dessertorderapp.widget.adapter.RestaurantListFragmentPagerAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -31,6 +35,16 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
     private lateinit var locationManager: LocationManager
 
     private lateinit var myLocationListener: MyLocationlistener
+
+    private val changeLocationLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+      if(result.resultCode == Activity.RESULT_OK){
+          result.data?.getParcelableExtra<MapSearchInfoEntity>(
+              HomeViewModel.MY_LOCATION_KEY
+          )?.let { myLocationInfo ->
+              viewModel.loadReverseGeoInfomation(myLocationInfo.locationLatLngEntity)
+          }
+      }
+    }
 
     private val locationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ permissions->
@@ -53,8 +67,16 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
             }
         }
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews() =with(binding){
+        locationTitle.setOnClickListener{
+            viewModel.getMapSearchInfo()?.let{ mapInfo ->
+                changeLocationLauncher.launch(
+                    MyLocationActivity.newIntent(
+                        requireContext(), mapInfo
+                    )
+                )
+            }
+        }
     }
     private fun initViewPager(locationLatLngEntity: LocationLatLngEntity) = with(binding){
         val restaurantCategories = RestaurantCategory.values()
