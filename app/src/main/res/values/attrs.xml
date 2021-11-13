@@ -2,4 +2,6 @@
 <resources>
     <attr name="toolbarStyle" format="reference" />
     <attr name="toolbarWithArrowButtonStyle" format="reference"/>
+    <attr name="toolbarWithCloseButtonStyle" format="reference"/>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.jcy.dessertorderapp.di
 
+import com.jcy.dessertorderapp.data.entity.MapSearchInfoEntity
 import com.jcy.dessertorderapp.data.repository.DefaultRestaurantRepository
 import com.jcy.dessertorderapp.data.repository.RestaurantRepository
 import com.jcy.dessertorderapp.data.repository.map.DefaultMapRepository
@@ -8,6 +9,7 @@ import com.jcy.dessertorderapp.screen.main.home.HomeViewModel
 import com.jcy.dessertorderapp.screen.main.my.MyViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListViewModel
+import com.jcy.dessertorderapp.screen.mylocation.MyLocationViewModel
 import com.jcy.dessertorderapp.util.provider.DefaultResourceProvider
 import com.jcy.dessertorderapp.util.provider.ResourceProvider
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +22,7 @@ val appModule = module {
     viewModel{ HomeViewModel(get()) }
     viewModel { MyViewModel() }
     viewModel { (restaurantCategory: RestaurantCategory) -> RestaurantListViewModel(restaurantCategory, get()) }
+    viewModel { (mapSearchInfoEntity : MapSearchInfoEntity) -> MyLocationViewModel(mapSearchInfoEntity,get())}
 
     single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<RestaurantRepository> { DefaultRestaurantRepository(get(),get())}
