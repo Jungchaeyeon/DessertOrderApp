@@ -6,6 +6,7 @@ import com.jcy.dessertorderapp.R
 import com.jcy.dessertorderapp.data.entity.LocationLatLngEntity
 import com.jcy.dessertorderapp.data.entity.MapSearchInfoEntity
 import com.jcy.dessertorderapp.data.repository.map.MapRepository
+import com.jcy.dessertorderapp.data.repository.user.UserRepository
 import com.jcy.dessertorderapp.screen.base.BaseViewModel
 import com.jcy.dessertorderapp.screen.main.home.HomeState
 import kotlinx.coroutines.Job
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 class MyLocationViewModel(
     private val mapSearchInfoEntity: MapSearchInfoEntity,
     private val mapRepository: MapRepository,
+    private val userRepository: UserRepository
 ) : BaseViewModel() {
     val myLocationStateLiveData = MutableLiveData<MyLocationState>()
 
@@ -41,7 +43,10 @@ class MyLocationViewModel(
     fun confirmSelectLocation() = viewModelScope.launch {
         when(val data = myLocationStateLiveData.value){
             is MyLocationState.Success ->{
-
+                userRepository.insertUserLocation(data.mapSearchInfoEntity.locationLatLngEntity)
+                myLocationStateLiveData.value = MyLocationState.Confirm(
+                    data.mapSearchInfoEntity
+                )
             }
         }
     }
