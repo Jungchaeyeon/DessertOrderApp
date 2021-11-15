@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -83,18 +82,25 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
 
         if(::viewPagerAdapter.isInitialized.not()){
             val restaurantListFragmentList = restaurantCategories.map{
-                RestaurantListFragment.newInstance(it)
+                RestaurantListFragment.newInstance(it, locationLatLngEntity)
             }
             viewPagerAdapter = RestaurantListFragmentPagerAdapter(
                 this@HomeFragment,
-                restaurantListFragmentList
+                restaurantListFragmentList,
+                locationLatLngEntity
             )
         viewPager.adapter  = viewPagerAdapter
-        }
         viewPager.offscreenPageLimit = restaurantCategories.size
         TabLayoutMediator(tabLayout, viewPager){ tab, position ->
             tab.setText(restaurantCategories[position].categoryNameId)
         }.attach()
+        }
+        if(locationLatLngEntity != viewPagerAdapter.locationLatLngEntity){
+            viewPagerAdapter.locationLatLngEntity = locationLatLngEntity
+            viewPagerAdapter.fragmentList.forEach{
+                it.viewModel.setLocationLatLng(locationLatLngEntity)
+            }
+        }
     }
 
     override fun observeData() = viewModel.homeStateLiveData.observe(viewLifecycleOwner){
@@ -113,6 +119,9 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
                 binding.filterScrollView.isVisible = true
                 binding.viewPager.isVisible = true
                 initViewPager(it.mapSearchInfoEntity.locationLatLngEntity)
+                if(it.isLocationSame.not()){
+                    Toast.makeText(requireContext(), getString(R.string.please_set_your_current_location), Toast.LENGTH_SHORT).show()
+                }
             }
             is HomeState.Error ->{
                 binding.locationLoading.isGone = true

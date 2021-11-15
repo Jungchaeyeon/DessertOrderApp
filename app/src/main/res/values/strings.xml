@@ -64,5 +64,6 @@
     <string name="confirm">확인</string>
     <string name="plz_setup_your_location_permission">위치 권한을 설정해주세요.</string>
     <string name="cannot_assigned_permission">권한을 받지 못했습니다.</string>
+    <string name="please_set_your_current_location">현재위치로 설정해주세요.</string>
 
 </resources>
