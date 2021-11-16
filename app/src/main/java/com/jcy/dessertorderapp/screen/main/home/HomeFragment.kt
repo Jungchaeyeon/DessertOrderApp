@@ -19,6 +19,7 @@ import com.jcy.dessertorderapp.databinding.FragmentHomeBinding
 import com.jcy.dessertorderapp.screen.base.BaseFragment
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListFragment
+import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantOrder
 import com.jcy.dessertorderapp.screen.mylocation.MyLocationActivity
 import com.jcy.dessertorderapp.widget.adapter.RestaurantListFragmentPagerAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -76,11 +77,40 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
                 )
             }
         }
+        orderChipGroup.setOnCheckedChangeListener { _, checkedId ->
+            when(checkedId){
+                R.id.chipDefault ->{
+                    chipInitialize.isGone = true
+                    changeRestaurantOrder(RestaurantOrder.DEFAULT)
+                }
+                R.id.chipInitialize ->{
+                    chipDefault.isChecked = true
+                }
+                R.id.chipLowTipDeilvery ->{
+                    chipInitialize.isVisible = true
+                    changeRestaurantOrder(RestaurantOrder.LOW_DELIVERY_TIP)
+                }
+                R.id.chipFastDelivery ->{
+                    chipInitialize.isVisible = true
+                    changeRestaurantOrder(RestaurantOrder.FAST_DELIVERY)
+                }
+                R.id.chipTopRate ->{
+                    chipInitialize.isVisible = true
+                    changeRestaurantOrder(RestaurantOrder.TOP_RATE)
+                }
+            }
+        }
+    }
+    private fun changeRestaurantOrder(order: RestaurantOrder){
+        viewPagerAdapter.fragmentList.forEach {
+            it.viewModel.setRestaurantOrder(order)
+        }
     }
     private fun initViewPager(locationLatLngEntity: LocationLatLngEntity) = with(binding){
         val restaurantCategories = RestaurantCategory.values()
 
         if(::viewPagerAdapter.isInitialized.not()){
+            orderChipGroup.isVisible = true
             val restaurantListFragmentList = restaurantCategories.map{
                 RestaurantListFragment.newInstance(it, locationLatLngEntity)
             }

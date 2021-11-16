@@ -8,6 +8,7 @@ import com.jcy.dessertorderapp.data.entity.LocationLatLngEntity
 import com.jcy.dessertorderapp.databinding.FragmentRestaurantListBinding
 import com.jcy.dessertorderapp.model.restaurant.RestaurantModel
 import com.jcy.dessertorderapp.screen.base.BaseFragment
+import com.jcy.dessertorderapp.screen.main.restaurant.detail.RestaurantDetailActivity
 import com.jcy.dessertorderapp.util.provider.ResourceProvider
 import com.jcy.dessertorderapp.widget.adapter.ModelRecyclerAdapter
 import com.jcy.dessertorderapp.widget.adapter.listener.restaurant.RestaurantListListener
@@ -35,7 +36,12 @@ class RestaurantListFragment :
     private val adapter by lazy {
         ModelRecyclerAdapter<RestaurantModel, RestaurantListViewModel>(listOf(), viewModel, resourceProvider, adapterListener = object : RestaurantListListener{
             override fun onClickItem(model: RestaurantModel) {
-                Toast.makeText(requireContext(), "${model}", Toast.LENGTH_SHORT).show()
+                startActivity(
+                    RestaurantDetailActivity.newIntent(
+                        requireContext(),
+                        model.toEntity()
+                    )
+                )
             }
         })
     }
@@ -50,6 +56,7 @@ class RestaurantListFragment :
     companion object{
         const val RESTAURANT_CATEGORY_KEY = "restaurantCategory"
         const val LOCATION_KEY = "location"
+        const val RESTAURANT_KEY = "Restaurant"
 
         fun newInstance(restaurantCategory: RestaurantCategory, locationLatLng: LocationLatLngEntity): RestaurantListFragment{
             return RestaurantListFragment().apply {

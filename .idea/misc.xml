@@ -5,9 +5,11 @@
       <map>
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/drawable/bg_filter_chip_state_style.xml" value="0.14375" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/drawable/ic_baseline_my_location_24.xml" value="0.10555555555555556" />
+        <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/drawable/ic_refresh.xml" value="0.10925925925925926" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_main.xml" value="0.1828125" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_my_location.xml" value="0.1203125" />
-        <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_restaurant_detail.xml" value="0.10837438423645321" />
+        <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/fragment_my.xml" value="0.1734375" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/fragment_restaurant_list.xml" value="0.17916666666666667" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_empty.xml" value="0.10914855072463768" />
