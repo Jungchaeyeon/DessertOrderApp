@@ -9,5 +9,6 @@ sealed class RestaurantDetailState {
 
     data class Success(
         val restaurantEntity: RestaurantEntity,
+        val isLiked : Boolean? = null
     ): RestaurantDetailState()
 }
