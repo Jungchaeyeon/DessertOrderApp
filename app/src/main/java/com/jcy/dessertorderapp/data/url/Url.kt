@@ -9,5 +9,5 @@ object Url {
 
     const val GET_TMAP_REVERSE_GEO_CODE = "/tmap/geo/reversegeocoding"
 
-    const val DESSERT_URL = ""
+    const val DESSERT_URL = "https://6187adab057b9b00177f9a61.mockapi.io/"
 }

@@ -3,7 +3,8 @@
     <style name="Theme.DessertOrderApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="toolbarStyle">@style/Widget.DessertOrderApp.Toolbar</item>
         <item name="toolbarWithArrowButtonStyle">@style/Widget.DessertOrderApp.Toolbar.WithArrow</item>
-<!--        <item name="toolbarStyleWithCloseButtonStyle">@style/Widget.DessertOrderApp.Toolbar.WithClose</item>-->
+        <item name="toolbarWithCloseButtonStyle">@style/Widget.DessertOrderApp.Toolbar.WithClose</item>
+
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
