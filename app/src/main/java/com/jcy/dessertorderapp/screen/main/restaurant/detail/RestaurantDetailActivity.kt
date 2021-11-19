@@ -9,13 +9,18 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.jcy.dessertorderapp.R
 import com.jcy.dessertorderapp.data.entity.RestaurantEntity
+import com.jcy.dessertorderapp.data.entity.RestaurantFoodEntity
 import com.jcy.dessertorderapp.databinding.ActivityRestaurantDetailBinding
 import com.jcy.dessertorderapp.ext.fromDpToPx
 import com.jcy.dessertorderapp.ext.load
 import com.jcy.dessertorderapp.screen.base.BaseActivity
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListFragment
+import com.jcy.dessertorderapp.screen.main.restaurant.detail.menu.RestaurantMenuListFragment
+import com.jcy.dessertorderapp.screen.main.restaurant.detail.review.RestaurantReviewListFragment
+import com.jcy.dessertorderapp.widget.adapter.RestaurantDetailListFragmentPagerAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.lang.Math.abs
@@ -31,6 +36,7 @@ class RestaurantDetailActivity : BaseActivity<RestaurantDetailViewModel, Activit
     override fun initViews() {
         initAppBar()
     }
+    private lateinit var viewPagerAdapter : RestaurantDetailListFragmentPagerAdapter
 
     override fun getViewBinding(): ActivityRestaurantDetailBinding = ActivityRestaurantDetailBinding.inflate(layoutInflater)
 
@@ -119,7 +125,22 @@ class RestaurantDetailActivity : BaseActivity<RestaurantDetailViewModel, Activit
             }),
             null, null, null
         )
-
+    if(::viewPagerAdapter.isInitialized.not()){
+        initViewPager(state.restaurantEntity.restaurantInfoId,state.restaurantEntity.restaurantTitle,state.restaurantFoodList ?: listOf())
+        }
+    }
+    private fun initViewPager(restaurantInfoId: Long, restaurantTitle: String,restaurantFoodList: List<RestaurantFoodEntity>?){
+        viewPagerAdapter = RestaurantDetailListFragmentPagerAdapter(
+            this,
+            listOf(
+                RestaurantMenuListFragment.newInstance(restaurantInfoId, ArrayList(restaurantFoodList ?: listOf())),
+                RestaurantReviewListFragment.newInstance(restaurantTitle)
+            )
+        )
+        binding.menuAndReviewPager.adapter = viewPagerAdapter
+        TabLayoutMediator(binding.menuAndReviewTabLayout, binding.menuAndReviewPager){ tab, position ->
+            tab.setText(RestaurantCategoryDetail.values()[position].categoryNameId)
+        }.attach()
     }
 
 

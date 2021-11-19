@@ -3,6 +3,7 @@ package com.jcy.dessertorderapp.di
 import com.jcy.dessertorderapp.data.entity.LocationLatLngEntity
 import com.jcy.dessertorderapp.data.entity.MapSearchInfoEntity
 import com.jcy.dessertorderapp.data.entity.RestaurantEntity
+import com.jcy.dessertorderapp.data.entity.RestaurantFoodEntity
 import com.jcy.dessertorderapp.data.repository.DefaultRestaurantRepository
 import com.jcy.dessertorderapp.data.repository.RestaurantRepository
 import com.jcy.dessertorderapp.data.repository.map.DefaultMapRepository
@@ -16,6 +17,8 @@ import com.jcy.dessertorderapp.screen.main.my.MyViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.detail.RestaurantDetailViewModel
+import com.jcy.dessertorderapp.screen.main.restaurant.detail.menu.RestaurantMenuListViewModel
+import com.jcy.dessertorderapp.screen.main.restaurant.detail.review.RestaurantReviewListViewModel
 import com.jcy.dessertorderapp.screen.mylocation.MyLocationViewModel
 import com.jcy.dessertorderapp.util.provider.DefaultResourceProvider
 import com.jcy.dessertorderapp.util.provider.ResourceProvider
@@ -33,6 +36,9 @@ val appModule = module {
         RestaurantListViewModel(restaurantCategory, locationLatLng, get()) }
     viewModel { (mapSearchInfoEntity : MapSearchInfoEntity) -> MyLocationViewModel(mapSearchInfoEntity,get(),get())}
     viewModel { (restaurantEntity: RestaurantEntity) -> RestaurantDetailViewModel(restaurantEntity,get(),get()) }
+    viewModel { (restaurantId: Long, restaurantFoodList: List<RestaurantFoodEntity>)->
+        RestaurantMenuListViewModel(restaurantId, restaurantFoodList) }
+    viewModel { RestaurantReviewListViewModel() }
 
     single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<RestaurantRepository> { DefaultRestaurantRepository(get(),get(),get())}
