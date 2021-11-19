@@ -1,5 +1,6 @@
 package com.jcy.dessertorderapp.di
 
+import com.jcy.dessertorderapp.data.network.FoodApiService
 import com.jcy.dessertorderapp.data.network.MapApiService
 import com.jcy.dessertorderapp.data.url.Url
 import okhttp3.OkHttpClient
@@ -8,6 +9,21 @@ import org.koin.android.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+
+fun provideFoodApiService(retrofit: Retrofit): FoodApiService{
+    return retrofit.create(FoodApiService::class.java)
+}
+
+fun provideFoodRetrofit(
+    okHttpClient: OkHttpClient,
+    gsonConverterFactory: GsonConverterFactory
+): Retrofit{
+    return Retrofit.Builder()
+        .baseUrl(Url.DESSERT_URL)
+        .addConverterFactory(gsonConverterFactory)
+        .client(okHttpClient)
+        .build()
+}
 
 fun provideMapApiService(retrofit: Retrofit):  MapApiService{
     return retrofit.create(MapApiService::class.java)

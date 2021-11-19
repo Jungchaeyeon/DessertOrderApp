@@ -4,8 +4,10 @@ import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.google.android.material.appbar.AppBarLayout
 import com.jcy.dessertorderapp.R
 import com.jcy.dessertorderapp.data.entity.RestaurantEntity
@@ -87,11 +89,13 @@ class RestaurantDetailActivity : BaseActivity<RestaurantDetailViewModel, Activit
         }
     }
     private fun handleLoading() = with(binding) {
-       // progressBar.isVisible = true
+        progressBar.isVisible = true
     }
 
     private fun handleSuccess(state: RestaurantDetailState.Success) = with(binding) {
-      //  progressBar.isGone = true
+        progressBar.isGone = true
+
+        //ok - Log.e("restaurantFoodList",state.restaurantFoodList.toString())
 
         val restaurantEntity = state.restaurantEntity
 
