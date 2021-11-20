@@ -6,5 +6,13 @@ interface RestaurantFoodRepository {
 
     suspend fun getFoods(restaurantId: Long): List<RestaurantFoodEntity>
 
-   // suspend fun getAllFoodMenuList
+    suspend fun getAllFoodMenuListInBasket(): List<RestaurantFoodEntity>
+
+    suspend fun getFoodMenuListInBasket(restaurantId: Long): List<RestaurantFoodEntity>
+
+    suspend fun insertFoodmenuInBasket(restaurantFoodEntity: RestaurantFoodEntity)
+
+    suspend fun removeFoodMenuListInBasket(foodId: String)
+
+    suspend fun clearFoodMenuListInBasket()
 }

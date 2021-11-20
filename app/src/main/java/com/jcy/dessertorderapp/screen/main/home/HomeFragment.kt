@@ -133,33 +133,47 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
         }
     }
 
-    override fun observeData() = viewModel.homeStateLiveData.observe(viewLifecycleOwner){
-        when(it){
-            is HomeState.Unititialized ->{ //초기화 되어있지 않으면
-                getMyLocation()
-            }
-            is HomeState.Loading ->{
-                binding.locationLoading.isVisible = true
-                binding.locationTitle.text = getString(R.string.loading)
-            }
-            is HomeState.Success ->{
-                binding.locationLoading.isGone = true
-                binding.locationTitle.text = it.mapSearchInfoEntity.fullAddress
-                binding.tabLayout.isVisible = true
-                binding.filterScrollView.isVisible = true
-                binding.viewPager.isVisible = true
-                initViewPager(it.mapSearchInfoEntity.locationLatLngEntity)
-                if(it.isLocationSame.not()){
-                    Toast.makeText(requireContext(), getString(R.string.please_set_your_current_location), Toast.LENGTH_SHORT).show()
-                }
-            }
-            is HomeState.Error ->{
-                binding.locationLoading.isGone = true
-                binding.locationTitle.text ="위치정보 없음"
-                binding.locationTitle.setOnClickListener {
+    override fun observeData(){
+        viewModel.homeStateLiveData.observe(viewLifecycleOwner){
+            when(it){
+                is HomeState.Unititialized ->{ //초기화 되어있지 않으면
                     getMyLocation()
                 }
-                Toast.makeText(requireContext(), it.messageId, Toast.LENGTH_SHORT).show()
+                is HomeState.Loading ->{
+                    binding.locationLoading.isVisible = true
+                    binding.locationTitle.text = getString(R.string.loading)
+                }
+                is HomeState.Success ->{
+                    binding.locationLoading.isGone = true
+                    binding.locationTitle.text = it.mapSearchInfoEntity.fullAddress
+                    binding.tabLayout.isVisible = true
+                    binding.filterScrollView.isVisible = true
+                    binding.viewPager.isVisible = true
+                    initViewPager(it.mapSearchInfoEntity.locationLatLngEntity)
+                    if(it.isLocationSame.not()){
+                        Toast.makeText(requireContext(), getString(R.string.please_set_your_current_location), Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is HomeState.Error ->{
+                    binding.locationLoading.isGone = true
+                    binding.locationTitle.text ="위치정보 없음"
+                    binding.locationTitle.setOnClickListener {
+                        getMyLocation()
+                    }
+                    Toast.makeText(requireContext(), it.messageId, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        viewModel.foodMenuBasketLiveData.observe(this){
+            if(it.isNotEmpty()){
+                binding.basketBtnContainer.isVisible = true
+                binding.basketCountTv.text = getString(R.string.basket_count, it.size)
+                binding.basketBtn.setOnClickListener{
+                    //TODO주문하기 화면으로 이동 or 로그인
+                }
+            }else{
+                binding.basketBtnContainer.isGone = true
+                binding.basketBtn.setOnClickListener(null)
             }
         }
     }
@@ -191,6 +205,11 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
                 minTime, minDistance, myLocationListener
             )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkMyBasket()
     }
     companion object{
         val locationPermissions = arrayOf(
