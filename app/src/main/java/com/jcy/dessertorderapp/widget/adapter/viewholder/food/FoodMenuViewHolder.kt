@@ -10,6 +10,7 @@ import com.jcy.dessertorderapp.screen.base.BaseViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.detail.menu.RestaurantMenuListViewModel
 import com.jcy.dessertorderapp.util.provider.ResourceProvider
 import com.jcy.dessertorderapp.widget.adapter.listener.AdapterListener
+import com.jcy.dessertorderapp.widget.adapter.listener.restaurant.FoodMenuListListener
 import com.jcy.dessertorderapp.widget.adapter.viewholder.ModelViewHolder
 
 class FoodMenuViewHolder(
@@ -32,6 +33,10 @@ class FoodMenuViewHolder(
         }
     }
     override fun bindViews(model: FoodModel, adapterListener: AdapterListener) {
-
+        if(adapterListener is FoodMenuListListener){
+            binding.root.setOnClickListener {
+                adapterListener.onClickItem(model)
+            }
+        }
     }
 }
