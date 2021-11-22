@@ -10,6 +10,8 @@ import com.jcy.dessertorderapp.data.repository.map.DefaultMapRepository
 import com.jcy.dessertorderapp.data.repository.map.MapRepository
 import com.jcy.dessertorderapp.data.repository.restaurant.food.DefaultRestaurantFoodRepository
 import com.jcy.dessertorderapp.data.repository.restaurant.food.RestaurantFoodRepository
+import com.jcy.dessertorderapp.data.repository.restaurant.review.DefaultRestaurantReviewRepository
+import com.jcy.dessertorderapp.data.repository.restaurant.review.RestaurantReviewRepository
 import com.jcy.dessertorderapp.data.repository.user.DefaultUserRepository
 import com.jcy.dessertorderapp.data.repository.user.UserRepository
 import com.jcy.dessertorderapp.screen.main.home.HomeViewModel
@@ -38,12 +40,13 @@ val appModule = module {
     viewModel { (restaurantEntity: RestaurantEntity) -> RestaurantDetailViewModel(restaurantEntity,get(),get()) }
     viewModel { (restaurantId: Long, restaurantFoodList: List<RestaurantFoodEntity>)->
         RestaurantMenuListViewModel(restaurantId, restaurantFoodList,get()) }
-    viewModel { RestaurantReviewListViewModel() }
+    viewModel { (repositoryTitle:String) -> RestaurantReviewListViewModel(repositoryTitle,get()) }
 
     single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<RestaurantRepository> { DefaultRestaurantRepository(get(),get(),get())}
     single<UserRepository> { DefaultUserRepository(get(),get(),get())}
     single<RestaurantFoodRepository>{ DefaultRestaurantFoodRepository(get(),get(),get())}
+    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get())}
 
     single { provideGsonConverterFactory() }
     single { buildOkHttpClient() }
