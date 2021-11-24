@@ -1,6 +1,6 @@
 package com.jcy.dessertorderapp.screen.main.restaurant.detail.review
 
-import com.jcy.dessertorderapp.data.entity.RestaurantReviewEntity
+import com.jcy.dessertorderapp.model.restaurant.review.RestaurantReviewModel
 
 sealed class RestaurantReviewState {
 
@@ -9,6 +9,6 @@ sealed class RestaurantReviewState {
     object Loading: RestaurantReviewState()
 
     data class Success(
-        val reviewList: List<RestaurantReviewEntity>
+        val reviewList: List<RestaurantReviewModel>
     ): RestaurantReviewState()
 }

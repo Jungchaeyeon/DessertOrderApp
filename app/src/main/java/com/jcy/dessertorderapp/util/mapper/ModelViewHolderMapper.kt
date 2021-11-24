@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.jcy.dessertorderapp.databinding.ViewholderEmptyBinding
 import com.jcy.dessertorderapp.databinding.ViewholderFoodMenuBinding
 import com.jcy.dessertorderapp.databinding.ViewholderRestaurantBinding
+import com.jcy.dessertorderapp.databinding.ViewholderRestaurantReviewBinding
 import com.jcy.dessertorderapp.model.CellType
 import com.jcy.dessertorderapp.model.Model
 import com.jcy.dessertorderapp.screen.base.BaseViewModel
@@ -13,6 +14,7 @@ import com.jcy.dessertorderapp.widget.adapter.viewholder.EmptyViewHolder
 import com.jcy.dessertorderapp.widget.adapter.viewholder.ModelViewHolder
 import com.jcy.dessertorderapp.widget.adapter.viewholder.food.FoodMenuViewHolder
 import com.jcy.dessertorderapp.widget.adapter.viewholder.restaurant.RestaurantViewHolder
+import com.jcy.dessertorderapp.widget.adapter.viewholder.review.RestaurantReviewViewHolder
 
 object ModelViewHolderMapper {
 
@@ -38,6 +40,11 @@ object ModelViewHolderMapper {
             )
             CellType.FOOD_CELL -> FoodMenuViewHolder(
                 ViewholderFoodMenuBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourceProvider
+            )
+            CellType.REVIEW_CELL -> RestaurantReviewViewHolder(
+                ViewholderRestaurantReviewBinding.inflate(inflater, parent,false),
                 viewModel,
                 resourceProvider
             )
