@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1010039843795",
+    "project_id": "fooddeliveryapp-328002",
+    "storage_bucket": "fooddeliveryapp-328002.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010039843795:android:ecb8a6e6fde3627116dd26",
+        "android_client_info": {
+          "package_name": "com.jcy.dessertorderapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1010039843795-fobnitued8ooodcem2ilc0egmon7ngti.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jcy.dessertorderapp",
+            "certificate_hash": "51d99f756c7dba45d28cbd4d3fa05c928289b0cd"
+          }
+        },
+        {
+          "client_id": "1010039843795-bq2dhfhg9937ebb7nps3bg7mpg129or8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUeQruYM5nPpXzAlv0hRGvx4XvMpx25N8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010039843795-bq2dhfhg9937ebb7nps3bg7mpg129or8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
