@@ -8,6 +8,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jcy.dessertorderapp.R
 import com.jcy.dessertorderapp.databinding.ActivityMainBinding
 import com.jcy.dessertorderapp.screen.main.home.HomeFragment
+import com.jcy.dessertorderapp.screen.main.like.RestaurantLikeListFragment
 import com.jcy.dessertorderapp.screen.main.my.MyFragment
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return when(item.itemId){
             R.id.menu_home ->{
                 showFragment(HomeFragment.newInstance(),HomeFragment.TAG)
+                true
+            }
+            R.id.menu_like ->{
+                showFragment(RestaurantLikeListFragment.newInstance(), RestaurantLikeListFragment.TAG)
                 true
             }
             R.id.menu_my ->{

@@ -16,6 +16,7 @@ import com.jcy.dessertorderapp.data.repository.restaurant.review.RestaurantRevie
 import com.jcy.dessertorderapp.data.repository.user.DefaultUserRepository
 import com.jcy.dessertorderapp.data.repository.user.UserRepository
 import com.jcy.dessertorderapp.screen.main.home.HomeViewModel
+import com.jcy.dessertorderapp.screen.main.like.RestaurantLikeListViewModel
 import com.jcy.dessertorderapp.screen.main.my.MyViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListViewModel
@@ -42,6 +43,7 @@ val appModule = module {
     viewModel { (restaurantId: Long, restaurantFoodList: List<RestaurantFoodEntity>)->
         RestaurantMenuListViewModel(restaurantId, restaurantFoodList,get()) }
     viewModel { (repositoryTitle:String) -> RestaurantReviewListViewModel(repositoryTitle,get()) }
+    viewModel { RestaurantLikeListViewModel(get())}
 
     single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<RestaurantRepository> { DefaultRestaurantRepository(get(),get(),get())}
