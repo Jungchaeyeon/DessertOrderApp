@@ -4,6 +4,7 @@ import com.jcy.dessertorderapp.data.entity.LocationLatLngEntity
 import com.jcy.dessertorderapp.data.entity.MapSearchInfoEntity
 import com.jcy.dessertorderapp.data.entity.RestaurantEntity
 import com.jcy.dessertorderapp.data.entity.RestaurantFoodEntity
+import com.jcy.dessertorderapp.data.preference.AppPreferenceManager
 import com.jcy.dessertorderapp.data.repository.DefaultRestaurantRepository
 import com.jcy.dessertorderapp.data.repository.RestaurantRepository
 import com.jcy.dessertorderapp.data.repository.map.DefaultMapRepository
@@ -15,6 +16,7 @@ import com.jcy.dessertorderapp.data.repository.restaurant.review.RestaurantRevie
 import com.jcy.dessertorderapp.data.repository.user.DefaultUserRepository
 import com.jcy.dessertorderapp.data.repository.user.UserRepository
 import com.jcy.dessertorderapp.screen.main.home.HomeViewModel
+import com.jcy.dessertorderapp.screen.main.like.RestaurantLikeListViewModel
 import com.jcy.dessertorderapp.screen.main.my.MyViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListViewModel
@@ -33,7 +35,7 @@ import org.koin.dsl.module
 val appModule = module {
 
     viewModel{ HomeViewModel(get(),get(),get()) }
-    viewModel { MyViewModel() }
+    viewModel { MyViewModel(get()) }
     viewModel { (restaurantCategory: RestaurantCategory, locationLatLng: LocationLatLngEntity) ->
         RestaurantListViewModel(restaurantCategory, locationLatLng, get()) }
     viewModel { (mapSearchInfoEntity : MapSearchInfoEntity) -> MyLocationViewModel(mapSearchInfoEntity,get(),get())}
@@ -41,6 +43,7 @@ val appModule = module {
     viewModel { (restaurantId: Long, restaurantFoodList: List<RestaurantFoodEntity>)->
         RestaurantMenuListViewModel(restaurantId, restaurantFoodList,get()) }
     viewModel { (repositoryTitle:String) -> RestaurantReviewListViewModel(repositoryTitle,get()) }
+    viewModel { RestaurantLikeListViewModel(get())}
 
     single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<RestaurantRepository> { DefaultRestaurantRepository(get(),get(),get())}
@@ -63,6 +66,7 @@ val appModule = module {
     single { provideFoodMenuBasketDao(get())}
 
     single<ResourceProvider>{ DefaultResourceProvider(androidApplication())}
+    single { AppPreferenceManager(androidApplication()) }
 
     single { Dispatchers.IO }
     single { Dispatchers.Main }

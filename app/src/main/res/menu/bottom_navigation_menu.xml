@@ -4,6 +4,11 @@
     <item android:id="@+id/menu_home"
         android:title="@string/home"
         android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/menu_like"
+        android:title="@string/like"
+        android:icon="@drawable/ic_favorite"/>
     <item
         android:id="@+id/menu_my"
         android:title="@string/my"
