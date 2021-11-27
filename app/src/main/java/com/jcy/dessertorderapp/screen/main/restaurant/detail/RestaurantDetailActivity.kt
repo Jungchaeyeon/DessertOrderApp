@@ -5,23 +5,30 @@ import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import com.jcy.dessertorderapp.R
 import com.jcy.dessertorderapp.data.entity.RestaurantEntity
 import com.jcy.dessertorderapp.data.entity.RestaurantFoodEntity
 import com.jcy.dessertorderapp.databinding.ActivityRestaurantDetailBinding
 import com.jcy.dessertorderapp.ext.fromDpToPx
 import com.jcy.dessertorderapp.ext.load
+import com.jcy.dessertorderapp.screen.MainTabMenu
 import com.jcy.dessertorderapp.screen.base.BaseActivity
+import com.jcy.dessertorderapp.screen.main.order.OrderMenuListActivity
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListFragment
 import com.jcy.dessertorderapp.screen.main.restaurant.detail.menu.RestaurantMenuListFragment
 import com.jcy.dessertorderapp.screen.main.restaurant.detail.review.RestaurantReviewListFragment
+import com.jcy.dessertorderapp.util.event.MenuChangeEventBus
 import com.jcy.dessertorderapp.widget.adapter.RestaurantDetailListFragmentPagerAdapter
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.lang.Math.abs
@@ -37,9 +44,13 @@ class RestaurantDetailActivity : BaseActivity<RestaurantDetailViewModel, Activit
     override fun initViews() {
         initAppBar()
     }
+    private val menuChangeEventBus by inject<MenuChangeEventBus>()
+
     private lateinit var viewPagerAdapter : RestaurantDetailListFragmentPagerAdapter
 
     override fun getViewBinding(): ActivityRestaurantDetailBinding = ActivityRestaurantDetailBinding.inflate(layoutInflater)
+
+    private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     private fun initAppBar() = with(binding){
         appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener{ appBarLayout, verticalOffset ->
@@ -144,8 +155,34 @@ class RestaurantDetailActivity : BaseActivity<RestaurantDetailViewModel, Activit
             getString(R.string.basket_count, foodMenuListInBasket.size)
         }
         basketBtn.setOnClickListener{
-            //TODO주문하기 화면으로 이동 or 로그인
+            if(firebaseAuth.currentUser == null){
+                alertLoginNeed{
+                    lifecycleScope.launch{
+                        menuChangeEventBus.changeMenu(MainTabMenu.MY)
+                        finish()
+                    }
+                }
+            }else{
+                startActivity(
+                    OrderMenuListActivity.newIntent(this@RestaurantDetailActivity)
+                )
+            }
         }
+    }
+
+    private fun alertLoginNeed(afterAction: () -> Unit){
+        AlertDialog.Builder(this)
+            .setTitle("로그인이 필요합니다.")
+            .setMessage("주문하려면 로그인이 필요합니다. My탭으로 이동하시겠습니까?")
+            .setPositiveButton("이동"){dialog,_ ->
+                afterAction()
+                dialog.dismiss()
+            }
+            .setNegativeButton("취소"){dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
     private fun initViewPager(restaurantInfoId: Long, restaurantTitle: String,restaurantFoodList: List<RestaurantFoodEntity>?){

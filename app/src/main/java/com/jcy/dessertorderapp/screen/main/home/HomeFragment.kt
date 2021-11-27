@@ -3,6 +3,7 @@ package com.jcy.dessertorderapp.screen.main.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
@@ -12,11 +13,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import com.jcy.dessertorderapp.R
 import com.jcy.dessertorderapp.data.entity.LocationLatLngEntity
 import com.jcy.dessertorderapp.data.entity.MapSearchInfoEntity
 import com.jcy.dessertorderapp.databinding.FragmentHomeBinding
+import com.jcy.dessertorderapp.screen.MainActivity
+import com.jcy.dessertorderapp.screen.MainTabMenu
 import com.jcy.dessertorderapp.screen.base.BaseFragment
+import com.jcy.dessertorderapp.screen.main.order.OrderMenuListActivity
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListFragment
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantOrder
@@ -35,6 +40,8 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
     private lateinit var locationManager: LocationManager
 
     private lateinit var myLocationListener: MyLocationlistener
+
+    private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     private val changeLocationLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
       if(result.resultCode == Activity.RESULT_OK){
@@ -169,13 +176,35 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
                 binding.basketBtnContainer.isVisible = true
                 binding.basketCountTv.text = getString(R.string.basket_count, it.size)
                 binding.basketBtn.setOnClickListener{
-                    //TODO주문하기 화면으로 이동 or 로그인
+                    if(firebaseAuth.currentUser == null){
+                        alertLoginNeed {
+                            (requireActivity() as MainActivity).goToTab(MainTabMenu.MY)
+                        }
+                    }else{
+                        startActivity(
+                            OrderMenuListActivity.newIntent(requireContext())
+                        )
+                    }
                 }
             }else{
                 binding.basketBtnContainer.isGone = true
                 binding.basketBtn.setOnClickListener(null)
             }
         }
+    }
+    private fun alertLoginNeed(afterAction: () -> Unit){
+        AlertDialog.Builder(requireContext())
+            .setTitle("로그인이 필요합니다.")
+            .setMessage("주문하려면 로그인이 필요합니다. My탭으로 이동하시겠습니까?")
+            .setPositiveButton("이동"){dialog,_ ->
+                afterAction()
+                dialog.dismiss()
+            }
+            .setNegativeButton("취소"){dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
     private fun getMyLocation(){

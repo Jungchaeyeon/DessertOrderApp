@@ -18,12 +18,14 @@ import com.jcy.dessertorderapp.data.repository.user.UserRepository
 import com.jcy.dessertorderapp.screen.main.home.HomeViewModel
 import com.jcy.dessertorderapp.screen.main.like.RestaurantLikeListViewModel
 import com.jcy.dessertorderapp.screen.main.my.MyViewModel
+import com.jcy.dessertorderapp.screen.main.order.OrderMenuListViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.detail.RestaurantDetailViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.detail.menu.RestaurantMenuListViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.detail.review.RestaurantReviewListViewModel
 import com.jcy.dessertorderapp.screen.mylocation.MyLocationViewModel
+import com.jcy.dessertorderapp.util.event.MenuChangeEventBus
 import com.jcy.dessertorderapp.util.provider.DefaultResourceProvider
 import com.jcy.dessertorderapp.util.provider.ResourceProvider
 import kotlinx.coroutines.Dispatchers
@@ -44,6 +46,7 @@ val appModule = module {
         RestaurantMenuListViewModel(restaurantId, restaurantFoodList,get()) }
     viewModel { (repositoryTitle:String) -> RestaurantReviewListViewModel(repositoryTitle,get()) }
     viewModel { RestaurantLikeListViewModel(get())}
+    viewModel { OrderMenuListViewModel(get()) }
 
     single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<RestaurantRepository> { DefaultRestaurantRepository(get(),get(),get())}
@@ -70,4 +73,6 @@ val appModule = module {
 
     single { Dispatchers.IO }
     single { Dispatchers.Main }
+
+    single{ MenuChangeEventBus() }
 }

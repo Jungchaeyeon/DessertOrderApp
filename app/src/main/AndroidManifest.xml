@@ -20,6 +20,7 @@
         <activity
             android:name=".screen.mylocation.MyLocationActivity"
             android:exported="false" />
+        <activity android:name=".screen.main.order.OrderMenuListActivity"/>
         <activity
             android:name=".screen.MainActivity"
             android:exported="true">
