@@ -46,7 +46,7 @@ val appModule = module {
         RestaurantMenuListViewModel(restaurantId, restaurantFoodList,get()) }
     viewModel { (repositoryTitle:String) -> RestaurantReviewListViewModel(repositoryTitle,get()) }
     viewModel { RestaurantLikeListViewModel(get())}
-    viewModel { OrderMenuListViewModel() }
+    viewModel { OrderMenuListViewModel(get()) }
 
     single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<RestaurantRepository> { DefaultRestaurantRepository(get(),get(),get())}

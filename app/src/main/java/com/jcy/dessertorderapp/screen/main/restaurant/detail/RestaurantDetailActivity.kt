@@ -21,6 +21,7 @@ import com.jcy.dessertorderapp.ext.fromDpToPx
 import com.jcy.dessertorderapp.ext.load
 import com.jcy.dessertorderapp.screen.MainTabMenu
 import com.jcy.dessertorderapp.screen.base.BaseActivity
+import com.jcy.dessertorderapp.screen.main.order.OrderMenuListActivity
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListFragment
 import com.jcy.dessertorderapp.screen.main.restaurant.detail.menu.RestaurantMenuListFragment
 import com.jcy.dessertorderapp.screen.main.restaurant.detail.review.RestaurantReviewListFragment
@@ -162,7 +163,9 @@ class RestaurantDetailActivity : BaseActivity<RestaurantDetailViewModel, Activit
                     }
                 }
             }else{
-
+                startActivity(
+                    OrderMenuListActivity.newIntent(this@RestaurantDetailActivity)
+                )
             }
         }
     }

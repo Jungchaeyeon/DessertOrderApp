@@ -21,6 +21,7 @@ import com.jcy.dessertorderapp.databinding.FragmentHomeBinding
 import com.jcy.dessertorderapp.screen.MainActivity
 import com.jcy.dessertorderapp.screen.MainTabMenu
 import com.jcy.dessertorderapp.screen.base.BaseFragment
+import com.jcy.dessertorderapp.screen.main.order.OrderMenuListActivity
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListFragment
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantOrder
@@ -180,7 +181,9 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>() {
                             (requireActivity() as MainActivity).goToTab(MainTabMenu.MY)
                         }
                     }else{
-
+                        startActivity(
+                            OrderMenuListActivity.newIntent(requireContext())
+                        )
                     }
                 }
             }else{
