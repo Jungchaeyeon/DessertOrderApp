@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import com.jcy.dessertorderapp.R
 import com.jcy.dessertorderapp.databinding.ActivityOrderMenuListBinding
 import com.jcy.dessertorderapp.model.restaurant.RestaurantModel
 import com.jcy.dessertorderapp.model.restaurant.food.FoodModel
@@ -54,10 +55,10 @@ class OrderMenuListActivity : BaseActivity<OrderMenuListViewModel,ActivityOrderM
                 handleSuccess(it)
             }
             is OrderMenuState.Order ->{
-
+                handleOrderState()
             }
             is OrderMenuState.Error ->{
-
+                handleErrorState(it)
             }
             else -> Unit
         }
@@ -74,6 +75,13 @@ class OrderMenuListActivity : BaseActivity<OrderMenuListViewModel,ActivityOrderM
             Toast.makeText(this@OrderMenuListActivity, "주문 메뉴가 없어 화면을 종료합니다.", Toast.LENGTH_SHORT).show()
             finish()
         }
+    }
+    private fun handleOrderState(){
+        Toast.makeText(this, getString(R.string.success_order), Toast.LENGTH_SHORT).show()
+        finish()
+    }
+    private fun handleErrorState(state: OrderMenuState.Error){
+        Toast.makeText(this, getString(state.messageId, state.e), Toast.LENGTH_SHORT).show()
     }
     companion object{
         fun newIntent(context: Context)= Intent(context, OrderMenuListActivity::class.java)

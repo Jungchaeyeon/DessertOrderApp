@@ -1,5 +1,7 @@
 package com.jcy.dessertorderapp.di
 
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.jcy.dessertorderapp.data.entity.LocationLatLngEntity
 import com.jcy.dessertorderapp.data.entity.MapSearchInfoEntity
 import com.jcy.dessertorderapp.data.entity.RestaurantEntity
@@ -18,7 +20,9 @@ import com.jcy.dessertorderapp.data.repository.user.UserRepository
 import com.jcy.dessertorderapp.screen.main.home.HomeViewModel
 import com.jcy.dessertorderapp.screen.main.like.RestaurantLikeListViewModel
 import com.jcy.dessertorderapp.screen.main.my.MyViewModel
+import com.jcy.dessertorderapp.data.repository.order.DefaultOrderRepository
 import com.jcy.dessertorderapp.screen.main.order.OrderMenuListViewModel
+import com.jcy.dessertorderapp.data.repository.order.OrderRepository
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantCategory
 import com.jcy.dessertorderapp.screen.main.restaurant.RestaurantListViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.detail.RestaurantDetailViewModel
@@ -46,13 +50,14 @@ val appModule = module {
         RestaurantMenuListViewModel(restaurantId, restaurantFoodList,get()) }
     viewModel { (repositoryTitle:String) -> RestaurantReviewListViewModel(repositoryTitle,get()) }
     viewModel { RestaurantLikeListViewModel(get())}
-    viewModel { OrderMenuListViewModel(get()) }
+    viewModel { OrderMenuListViewModel(get(),get()) }
 
     single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<RestaurantRepository> { DefaultRestaurantRepository(get(),get(),get())}
     single<UserRepository> { DefaultUserRepository(get(),get(),get())}
     single<RestaurantFoodRepository>{ DefaultRestaurantFoodRepository(get(),get(),get())}
     single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get())}
+    single<OrderRepository>{ DefaultOrderRepository(get(),get()) }
 
     single { provideGsonConverterFactory() }
     single { buildOkHttpClient() }
@@ -75,4 +80,6 @@ val appModule = module {
     single { Dispatchers.Main }
 
     single{ MenuChangeEventBus() }
+
+    single{ Firebase.firestore }
 }
