@@ -1,6 +1,7 @@
 package com.jcy.dessertorderapp.screen.main.my
 
 import android.app.Activity
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -13,8 +14,13 @@ import com.jcy.dessertorderapp.R
 import com.jcy.dessertorderapp.databinding.FragmentHomeBinding
 import com.jcy.dessertorderapp.databinding.FragmentMyBinding
 import com.jcy.dessertorderapp.ext.load
+import com.jcy.dessertorderapp.model.restaurant.order.OrderModel
 import com.jcy.dessertorderapp.screen.base.BaseFragment
 import com.jcy.dessertorderapp.screen.main.home.HomeFragment
+import com.jcy.dessertorderapp.util.provider.ResourceProvider
+import com.jcy.dessertorderapp.widget.adapter.ModelRecyclerAdapter
+import com.jcy.dessertorderapp.widget.adapter.listener.AdapterListener
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MyFragment : BaseFragment<MyViewModel,FragmentMyBinding>() {
@@ -46,7 +52,18 @@ class MyFragment : BaseFragment<MyViewModel,FragmentMyBinding>() {
         }
     }
 
+    private val resouceProvider by inject<ResourceProvider>()
+
+    private val adapter by lazy{
+        ModelRecyclerAdapter<OrderModel, MyViewModel>(
+            listOf(),
+            viewModel,
+            resouceProvider,
+            object : AdapterListener{})
+    }
+
     override fun initViews() = with(binding){
+        recyclerView.adapter = adapter
         loginBtn.setOnClickListener {
             signInGoogle()
         }
@@ -90,6 +107,8 @@ class MyFragment : BaseFragment<MyViewModel,FragmentMyBinding>() {
         loginRequiredGroup.isGone = true
         profileImageView.load(state.profileImageUri.toString(), 60f )
         userNameTv.text = state.userName
+        //Toast.makeText(requireContext(), state.orderList.toString(), Toast.LENGTH_SHORT).show()
+        adapter.submitList(state.orderList)
     }
     private fun handleLoginState(state: MyState.Login) {
         binding.progressBar.isVisible = true

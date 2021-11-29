@@ -11,6 +11,7 @@ import com.jcy.dessertorderapp.widget.adapter.viewholder.EmptyViewHolder
 import com.jcy.dessertorderapp.widget.adapter.viewholder.ModelViewHolder
 import com.jcy.dessertorderapp.widget.adapter.viewholder.food.FoodMenuViewHolder
 import com.jcy.dessertorderapp.widget.adapter.viewholder.order.OrderMenuViewHolder
+import com.jcy.dessertorderapp.widget.adapter.viewholder.order.OrderViewHolder
 import com.jcy.dessertorderapp.widget.adapter.viewholder.restaurant.LikeRestaurantViewHolder
 import com.jcy.dessertorderapp.widget.adapter.viewholder.restaurant.RestaurantViewHolder
 import com.jcy.dessertorderapp.widget.adapter.viewholder.review.RestaurantReviewViewHolder
@@ -54,6 +55,11 @@ object ModelViewHolderMapper {
             )
             CellType.ORDER_FOOD_CELL -> OrderMenuViewHolder(
                 ViewholderOrderMenuBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourceProvider
+            )
+            CellType.ORDER_CELL -> OrderViewHolder(
+                ViewholderOrderBinding.inflate(inflater, parent, false),
                 viewModel,
                 resourceProvider
             )

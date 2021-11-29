@@ -2,6 +2,8 @@ package com.jcy.dessertorderapp.data.db.dao
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.jcy.dessertorderapp.data.entity.LocationLatLngEntity
 import com.jcy.dessertorderapp.data.entity.RestaurantEntity
 import com.jcy.dessertorderapp.data.entity.RestaurantFoodEntity
@@ -9,7 +11,7 @@ import com.jcy.dessertorderapp.data.entity.RestaurantFoodEntity
 
 @Database(
     entities = [LocationLatLngEntity::class, RestaurantEntity::class, RestaurantFoodEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class ApplicationDatabase : RoomDatabase(){
@@ -21,4 +23,5 @@ abstract class ApplicationDatabase : RoomDatabase(){
     abstract fun RestaurantDao() : RestaurantDao
 
     abstract fun FoodMenuBasketDao() : FoodMenuListDao
+
 }
