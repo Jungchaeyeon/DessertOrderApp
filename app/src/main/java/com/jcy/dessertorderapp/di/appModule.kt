@@ -41,7 +41,7 @@ import org.koin.dsl.module
 val appModule = module {
 
     viewModel{ HomeViewModel(get(),get(),get()) }
-    viewModel { MyViewModel(get()) }
+    viewModel { MyViewModel(get(),get(),get()) }
     viewModel { (restaurantCategory: RestaurantCategory, locationLatLng: LocationLatLngEntity) ->
         RestaurantListViewModel(restaurantCategory, locationLatLng, get()) }
     viewModel { (mapSearchInfoEntity : MapSearchInfoEntity) -> MyLocationViewModel(mapSearchInfoEntity,get(),get())}

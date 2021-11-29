@@ -2,9 +2,12 @@ package com.jcy.dessertorderapp.screen.main.my
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.jcy.dessertorderapp.data.entity.OrderEntity
 import com.jcy.dessertorderapp.data.preference.AppPreferenceManager
+import com.jcy.dessertorderapp.data.repository.order.DefaultOrderRepository
+import com.jcy.dessertorderapp.data.repository.order.OrderRepository
+import com.jcy.dessertorderapp.data.repository.user.UserRepository
 import com.jcy.dessertorderapp.screen.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -12,7 +15,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MyViewModel(
-    private val appPreferenceManager: AppPreferenceManager
+    private val appPreferenceManager: AppPreferenceManager,
+    private val userRepository: UserRepository,
+    private val orderRepository: OrderRepository
 ): BaseViewModel() {
 
     val myStateLiveData = MutableLiveData<MyState>(MyState.Uninitialized)
@@ -34,10 +39,17 @@ class MyViewModel(
 
     fun setUserInfo(firebaseUser: FirebaseUser?) = viewModelScope.launch{
         firebaseUser?.let { user ->
-            myStateLiveData.value = MyState.Success.Registered(
-                userName = user.displayName ?: "익명",
-                profileImageUri =  user.photoUrl
-            )
+            when(val orderMenusResult = orderRepository.getAllOrderMenus(user.uid)){
+                is DefaultOrderRepository.Result.Success<*> ->{
+                    val orderList = orderMenusResult.data as List<OrderEntity>
+                    myStateLiveData.value= MyState.Success.Registered(
+                        userName = user.displayName ?: "익명",
+                        profileImageUri =  user.photoUrl,
+                        orderList = orderList
+                    )
+                }
+            }
+
         } ?: kotlin.run {
             myStateLiveData.value = MyState.Success.NotRegistered
         }
@@ -47,6 +59,7 @@ class MyViewModel(
         withContext(Dispatchers.IO){
             appPreferenceManager.removeIdToken()
         }
+        userRepository.deleteAllUserLikedRestaurant()
         fetchData()
     }
 }
