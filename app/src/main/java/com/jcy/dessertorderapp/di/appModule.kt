@@ -1,5 +1,6 @@
 package com.jcy.dessertorderapp.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.jcy.dessertorderapp.data.entity.LocationLatLngEntity
@@ -57,7 +58,7 @@ val appModule = module {
     single<UserRepository> { DefaultUserRepository(get(),get(),get())}
     single<RestaurantFoodRepository>{ DefaultRestaurantFoodRepository(get(),get(),get())}
     single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get())}
-    single<OrderRepository>{ DefaultOrderRepository(get(),get()) }
+    single<OrderRepository>{DefaultOrderRepository(get(),get()) }
 
     single { provideGsonConverterFactory() }
     single { buildOkHttpClient() }
@@ -82,4 +83,5 @@ val appModule = module {
     single{ MenuChangeEventBus() }
 
     single{ Firebase.firestore }
+    single{ FirebaseAuth.getInstance() }
 }

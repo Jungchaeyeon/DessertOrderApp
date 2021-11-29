@@ -23,7 +23,9 @@ class RestaurantDetailViewModel(
             restaurantEntity= restaurantEntity
         )
         restaurantDetailStateLiveData.value = RestaurantDetailState.Loading
-        val foods = restaurantFoodRepository.getFoods(restaurantId = restaurantEntity.restaurantInfoId)
+        val foods = restaurantFoodRepository.getFoods(
+            restaurantId = restaurantEntity.restaurantInfoId,
+            restaurantTitle = restaurantEntity.restaurantTitle)
         val foodMenuListInBasket = restaurantFoodRepository.getAllFoodMenuListInBasket()
         val isLiked = userRepository.getUserLikedRestaurant(restaurantEntity.restaurantTitle) != null
         restaurantDetailStateLiveData.value = RestaurantDetailState.Success(

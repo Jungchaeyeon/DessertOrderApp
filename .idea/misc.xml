@@ -8,6 +8,7 @@
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/drawable/ic_baseline_my_location_24.xml" value="0.10555555555555556" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/drawable/ic_close.xml" value="0.21510416666666668" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/drawable/ic_refresh.xml" value="0.10925925925925926" />
+        <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_add_restaurant_review.xml" value="0.19791666666666666" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_main.xml" value="0.1828125" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_my_location.xml" value="0.1203125" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_order_menu_list.xml" value="0.1403985507246377" />
@@ -22,6 +23,7 @@
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_like_restaurant.xml" value="0.1" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_order.xml" value="0.1" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_order_menu.xml" value="0.1403985507246377" />
+        <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_photo_item.xml" value="0.10764944275582573" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_restaurant.xml" value="0.1953125" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_restaurant_review.xml" value="0.2" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.17239583333333333" />
