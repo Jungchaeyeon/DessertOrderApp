@@ -3,11 +3,13 @@ package com.jcy.dessertorderapp.screen.main.my
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
+import com.jcy.dessertorderapp.R
 import com.jcy.dessertorderapp.data.entity.OrderEntity
 import com.jcy.dessertorderapp.data.preference.AppPreferenceManager
 import com.jcy.dessertorderapp.data.repository.order.DefaultOrderRepository
 import com.jcy.dessertorderapp.data.repository.order.OrderRepository
 import com.jcy.dessertorderapp.data.repository.user.UserRepository
+import com.jcy.dessertorderapp.model.restaurant.order.OrderModel
 import com.jcy.dessertorderapp.screen.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -45,7 +47,21 @@ class MyViewModel(
                     myStateLiveData.value= MyState.Success.Registered(
                         userName = user.displayName ?: "익명",
                         profileImageUri =  user.photoUrl,
-                        orderList = orderList
+                        orderList = orderList.map{
+                            OrderModel(
+                                id = it.hashCode().toLong(),
+                                orderId = it.id,
+                                userId = it.userId,
+                                restaurantId = it.restaurantId,
+                                foodMenuList = it.foodMenuList
+                            )
+                        }
+                    )
+                }
+                is DefaultOrderRepository.Result.Error ->{
+                    myStateLiveData.value = MyState.Error(
+                        R.string.request_error,
+                        orderMenusResult.e
                     )
                 }
             }
