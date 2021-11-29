@@ -13,8 +13,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.jcy.dessertorderapp.data.entity.ReviewEntity
 import com.jcy.dessertorderapp.databinding.ActivityAddRestaurantReviewBinding
+import com.jcy.dessertorderapp.screen.review.gallery.GalleryActivity
 import com.jcy.dessertorderapp.widget.adapter.PhotoListAdapter
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
@@ -28,7 +31,7 @@ class AddRestaurantReviewActivity : AppCompatActivity(){
 
     private val storage: FirebaseStorage by inject()
 
-    //private val firestore: FirebaseFirestore by inject()
+    private val firestore: FirebaseFirestore by inject()
 
     private val photoListAdapter = PhotoListAdapter { uri -> removePhoto(uri) }
 
@@ -70,7 +73,7 @@ class AddRestaurantReviewActivity : AppCompatActivity(){
         }
 
         imageAddButton.setOnClickListener {
-           // showPictureUploadDialog()
+            showPictureUploadDialog()
         }
 
         submitButton.setOnClickListener {
@@ -88,7 +91,7 @@ class AddRestaurantReviewActivity : AppCompatActivity(){
                     afterUploadPhoto(results, title, content, rating, userId)
                 }
             } else {
-               // uploadArticle(userId, title, content, rating, listOf())
+                uploadArticle(userId, title, content, rating, listOf())
             }
         }
     }
@@ -120,26 +123,26 @@ class AddRestaurantReviewActivity : AppCompatActivity(){
 
         when {
             errorResults.isNotEmpty() && successResults.isNotEmpty() -> {
-               // photoUploadErrorButContinueDialog(errorResults, successResults, title, content, rating, userId)
+                photoUploadErrorButContinueDialog(errorResults, successResults, title, content, rating, userId)
             }
             errorResults.isNotEmpty() && successResults.isEmpty() -> {
                 uploadError()
             }
             else -> {
-              //  uploadArticle(userId, title, content, rating, successResults)
+                uploadArticle(userId, title, content, rating, successResults)
             }
         }
     }
 
-//    private fun uploadArticle(userId: String, title: String, content: String, rating: Float, imageUrlList: List<String>) {
-//        val reviewEntity = ReviewEntity(userId, title, System.currentTimeMillis(), content, rating, imageUrlList, orderId, restaurantTitle)
-//        firestore
-//            .collection("review")
-//            .add(reviewEntity)
-//        hideProgress()
-//        Toast.makeText(this, "리뷰가 성공적으로 업로드 되었습니다.", Toast.LENGTH_SHORT).show()
-//        finish()
-//    }
+    private fun uploadArticle(userId: String, title: String, content: String, rating: Float, imageUrlList: List<String>) {
+        val reviewEntity = ReviewEntity(userId, title, System.currentTimeMillis(), content, rating, imageUrlList, orderId, restaurantTitle)
+        firestore
+            .collection("review")
+            .add(reviewEntity)
+        hideProgress()
+        Toast.makeText(this, "리뷰가 성공적으로 업로드 되었습니다.", Toast.LENGTH_SHORT).show()
+        finish()
+    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -154,17 +157,17 @@ class AddRestaurantReviewActivity : AppCompatActivity(){
         }
     }
 
-//    private fun startGalleryScreen() {
-//        startActivityForResult(
-//            GalleryActivity.newIntent(this),
-//            GALLERY_REQUEST_CODE
-//        )
-//    }
-//
-//    private fun startCameraScreen() {
+    private fun startGalleryScreen() {
+        startActivityForResult(
+            GalleryActivity.newIntent(this),
+            GALLERY_REQUEST_CODE
+        )
+    }
+
+    private fun startCameraScreen() {
 //        val intent = Intent(this, CameraActivity::class.java)
 //        startActivityForResult(intent, CAMERA_REQUEST_CODE)
-//    }
+    }
 
     private fun showProgress() {
         binding.progressBar.isVisible = true
@@ -210,23 +213,23 @@ class AddRestaurantReviewActivity : AppCompatActivity(){
         }
     }
 
-//    private fun showPictureUploadDialog() {
-//        AlertDialog.Builder(this)
-//            .setTitle("사진첨부")
-//            .setMessage("사진첨부할 방식을 선택하세요")
-//            .setPositiveButton("카메라") { _, _ ->
-//                checkExternalStoragePermission {
-//                    startCameraScreen()
-//                }
-//            }
-//            .setNegativeButton("갤러리") { _, _ ->
-//                checkExternalStoragePermission {
-//                    startGalleryScreen()
-//                }
-//            }
-//            .create()
-//            .show()
-//    }
+    private fun showPictureUploadDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("사진첨부")
+            .setMessage("사진첨부할 방식을 선택하세요")
+            .setPositiveButton("카메라") { _, _ ->
+                checkExternalStoragePermission {
+                    startCameraScreen()
+                }
+            }
+            .setNegativeButton("갤러리") { _, _ ->
+                checkExternalStoragePermission {
+                    startGalleryScreen()
+                }
+            }
+            .create()
+            .show()
+    }
 
     private fun checkExternalStoragePermission(uploadAction: () -> Unit) {
         when {
@@ -257,25 +260,25 @@ class AddRestaurantReviewActivity : AppCompatActivity(){
 
     }
 
-//    private fun photoUploadErrorButContinueDialog(
-//        errorResults: List<Pair<Uri, Exception>>,
-//        successResults: List<String>,
-//        title: String,
-//        content: String,
-//        rating: Float,
-//        userId: String
-//    ) {
-//        AlertDialog.Builder(this)
-//            .setTitle("특정 이미지 업로드 실패")
-//            .setMessage("업로드에 실패한 이미지가 있습니다." + errorResults.map { (uri, _) ->
-//                "$uri\n"
-//            } + "그럼에도 불구하고 업로드 하시겠습니까?")
-//            .setPositiveButton("업로드") { _, _ ->
-//                uploadArticle(userId, title, content, rating, successResults)
-//            }
-//            .create()
-//            .show()
-//    }
+    private fun photoUploadErrorButContinueDialog(
+        errorResults: List<Pair<Uri, Exception>>,
+        successResults: List<String>,
+        title: String,
+        content: String,
+        rating: Float,
+        userId: String
+    ) {
+        AlertDialog.Builder(this)
+            .setTitle("특정 이미지 업로드 실패")
+            .setMessage("업로드에 실패한 이미지가 있습니다." + errorResults.map { (uri, _) ->
+                "$uri\n"
+            } + "그럼에도 불구하고 업로드 하시겠습니까?")
+            .setPositiveButton("업로드") { _, _ ->
+                uploadArticle(userId, title, content, rating, successResults)
+            }
+            .create()
+            .show()
+    }
 
     private fun uploadError() {
         Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
