@@ -3,6 +3,7 @@ package com.jcy.dessertorderapp.di
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.jcy.dessertorderapp.data.entity.LocationLatLngEntity
 import com.jcy.dessertorderapp.data.entity.MapSearchInfoEntity
 import com.jcy.dessertorderapp.data.entity.RestaurantEntity
@@ -30,6 +31,8 @@ import com.jcy.dessertorderapp.screen.main.restaurant.detail.RestaurantDetailVie
 import com.jcy.dessertorderapp.screen.main.restaurant.detail.menu.RestaurantMenuListViewModel
 import com.jcy.dessertorderapp.screen.main.restaurant.detail.review.RestaurantReviewListViewModel
 import com.jcy.dessertorderapp.screen.mylocation.MyLocationViewModel
+import com.jcy.dessertorderapp.screen.review.gallery.GalleryPhotoRepository
+import com.jcy.dessertorderapp.screen.review.gallery.GalleryViewModel
 import com.jcy.dessertorderapp.util.event.MenuChangeEventBus
 import com.jcy.dessertorderapp.util.provider.DefaultResourceProvider
 import com.jcy.dessertorderapp.util.provider.ResourceProvider
@@ -52,6 +55,7 @@ val appModule = module {
     viewModel { (repositoryTitle:String) -> RestaurantReviewListViewModel(repositoryTitle,get()) }
     viewModel { RestaurantLikeListViewModel(get())}
     viewModel { OrderMenuListViewModel(get(),get()) }
+    viewModel{ GalleryViewModel(get()) }
 
     single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<RestaurantRepository> { DefaultRestaurantRepository(get(),get(),get())}
@@ -59,6 +63,7 @@ val appModule = module {
     single<RestaurantFoodRepository>{ DefaultRestaurantFoodRepository(get(),get(),get())}
     single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get())}
     single<OrderRepository>{DefaultOrderRepository(get(),get()) }
+    single{GalleryPhotoRepository(androidApplication())}
 
     single { provideGsonConverterFactory() }
     single { buildOkHttpClient() }
@@ -84,4 +89,5 @@ val appModule = module {
 
     single{ Firebase.firestore }
     single{ FirebaseAuth.getInstance() }
+    single{ FirebaseStorage.getInstance()}
 }
