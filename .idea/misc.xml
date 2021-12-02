@@ -14,7 +14,9 @@
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/drawable/ic_close.xml" value="0.21510416666666668" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/drawable/ic_refresh.xml" value="0.10925925925925926" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_add_restaurant_review.xml" value="0.19791666666666666" />
+        <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_camera.xml" value="0.1" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_gallery.xml" value="0.1431159420289855" />
+        <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_image_preview_list.xml" value="0.15885416666666666" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_main.xml" value="0.1828125" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_my_location.xml" value="0.1203125" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/activity_order_menu_list.xml" value="0.1403985507246377" />
@@ -27,6 +29,7 @@
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_empty.xml" value="0.10914855072463768" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_food_menu.xml" value="0.1" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_gallery_photo_item.xml" value="0.165625" />
+        <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_image.xml" value="0.1585144927536232" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_like_restaurant.xml" value="0.1" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_order.xml" value="0.1" />
         <entry key="..\:/programfiles/DessertOrderApp/app/src/main/res/layout/viewholder_order_menu.xml" value="0.1403985507246377" />

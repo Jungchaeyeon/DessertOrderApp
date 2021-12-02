@@ -7,6 +7,7 @@ import com.jcy.dessertorderapp.model.restaurant.order.OrderModel
 import com.jcy.dessertorderapp.screen.base.BaseViewModel
 import com.jcy.dessertorderapp.util.provider.ResourceProvider
 import com.jcy.dessertorderapp.widget.adapter.listener.AdapterListener
+import com.jcy.dessertorderapp.widget.adapter.listener.order.OrderListListener
 import com.jcy.dessertorderapp.widget.adapter.viewholder.ModelViewHolder
 
 class OrderViewHolder(
@@ -34,5 +35,11 @@ class OrderViewHolder(
             orderTotalPriceText.text = resourceProvider.getString(R.string.price, foodMenuList.map { it.price }.reduce{total, price -> total+ price})
         }
     }
-    override fun bindViews(model: OrderModel, adapterListener: AdapterListener) = Unit
+    override fun bindViews(model: OrderModel, adapterListener: AdapterListener) {
+        if(adapterListener is OrderListListener){
+                binding.root.setOnClickListener {
+                    adapterListener.writeRestaurantReview(model.orderId, model.restaurantTitle)
+            }
+        }
+    }
 }
