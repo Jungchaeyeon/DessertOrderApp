@@ -70,5 +70,6 @@
     <string name="empty_like_restaurant_list">찜한 내역이 존재하지 않습니다.</string>
     <string name="success_order">성공적으로 주문을 완료하였습니다.</string>
 
-
+    <!-- Image Preview -->
+    <string name="images_page">(%d/%d)</string>
 </resources>

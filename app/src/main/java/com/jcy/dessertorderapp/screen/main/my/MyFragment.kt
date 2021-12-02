@@ -17,9 +17,11 @@ import com.jcy.dessertorderapp.ext.load
 import com.jcy.dessertorderapp.model.restaurant.order.OrderModel
 import com.jcy.dessertorderapp.screen.base.BaseFragment
 import com.jcy.dessertorderapp.screen.main.home.HomeFragment
+import com.jcy.dessertorderapp.screen.review.AddRestaurantReviewActivity
 import com.jcy.dessertorderapp.util.provider.ResourceProvider
 import com.jcy.dessertorderapp.widget.adapter.ModelRecyclerAdapter
 import com.jcy.dessertorderapp.widget.adapter.listener.AdapterListener
+import com.jcy.dessertorderapp.widget.adapter.listener.order.OrderListListener
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -59,7 +61,13 @@ class MyFragment : BaseFragment<MyViewModel,FragmentMyBinding>() {
             listOf(),
             viewModel,
             resouceProvider,
-            object : AdapterListener{})
+            object : OrderListListener{
+                override fun writeRestaurantReview(orderId: String, restaurantTitle: String) {
+                    startActivity(
+                        AddRestaurantReviewActivity.newIntent(requireContext(), orderId, restaurantTitle)
+                    )
+                }
+            })
     }
 
     override fun initViews() = with(binding){
