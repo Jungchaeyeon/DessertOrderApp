@@ -52,7 +52,7 @@ val appModule = module {
     viewModel { (restaurantEntity: RestaurantEntity) -> RestaurantDetailViewModel(restaurantEntity,get(),get()) }
     viewModel { (restaurantId: Long, restaurantFoodList: List<RestaurantFoodEntity>)->
         RestaurantMenuListViewModel(restaurantId, restaurantFoodList,get()) }
-    viewModel { (repositoryTitle:String) -> RestaurantReviewListViewModel(repositoryTitle,get()) }
+    viewModel { (restaurantTitle:String) -> RestaurantReviewListViewModel(restaurantTitle,get()) }
     viewModel { RestaurantLikeListViewModel(get())}
     viewModel { OrderMenuListViewModel(get(),get()) }
     viewModel{ GalleryViewModel(get()) }
@@ -61,7 +61,7 @@ val appModule = module {
     single<RestaurantRepository> { DefaultRestaurantRepository(get(),get(),get())}
     single<UserRepository> { DefaultUserRepository(get(),get(),get())}
     single<RestaurantFoodRepository>{ DefaultRestaurantFoodRepository(get(),get(),get())}
-    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get())}
+    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get(), get())}
     single<OrderRepository>{DefaultOrderRepository(get(),get()) }
     single{GalleryPhotoRepository(androidApplication())}
 
