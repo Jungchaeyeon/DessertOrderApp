@@ -25,7 +25,6 @@ class RestaurantReviewListViewModel(
         when(result){
             is DefaultRestaurantReviewRepository.Result.Success<*> ->{
                 val reviews = result.data as List<ReviewEntity>
-                Log.e("review data", reviews.toString())
                 reviewStateLiveData.value = RestaurantReviewState.Success(
                     reviews.map{
                         RestaurantReviewModel(

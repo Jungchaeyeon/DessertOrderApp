@@ -65,9 +65,6 @@ class AddRestaurantReviewActivity : AppCompatActivity(){
 
     private fun initViews() = with(binding) {
 
-        toolbar.setNavigationOnClickListener {
-            finish()
-        }
         photoRecyclerView.adapter = photoListAdapter
 
         titleTextView.text = restaurantTitle
