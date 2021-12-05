@@ -12,6 +12,10 @@
         <item name="navigationIcon">@drawable/ic_close</item>
         <item name="android:background">@color/white</item>
     </style>
+    <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
     <style name="Widget.DessertOrderApp.Chip" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipStrokeColor">@color/brown</item>
         <item name="chipStrokeWidth">1dp</item>

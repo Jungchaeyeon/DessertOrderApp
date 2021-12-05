@@ -132,6 +132,12 @@ class MyFragment : BaseFragment<MyViewModel,FragmentMyBinding>() {
              }
             }
     }
+
+    override fun onResume() {
+        super.onResume()
+        val user = firebaseAuth.currentUser
+        viewModel.setUserInfo(user)
+    }
     private fun handleErrorState(state : MyState.Error) {}
     companion object{
         fun newInstance() = MyFragment()

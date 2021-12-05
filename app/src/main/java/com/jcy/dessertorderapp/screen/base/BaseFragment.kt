@@ -1,6 +1,7 @@
 package com.jcy.dessertorderapp.screen.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ abstract class BaseFragment<VM: BaseViewModel, VB:ViewBinding>: Fragment() {
         initState()
     }
     open fun initState(){
+        Log.e("base initState", "")
         arguments?.let{
             viewModel.storeState(it)
         }

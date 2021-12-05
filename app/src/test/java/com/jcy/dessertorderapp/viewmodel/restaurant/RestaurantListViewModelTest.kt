@@ -22,7 +22,7 @@ internal class RestaurantListViewModelTest : ViewModelTest(){
      * [LocationLatLngEntity]
      * */
 
-    private var restaurantCategory = RestaurantCategory.ALL
+    private var restaurantCategory = RestaurantCategory.CAFE_DESSERT
 
     private val locationLatLngEntity: LocationLatLngEntity = LocationLatLngEntity(0.0,0.0)
 
@@ -37,7 +37,7 @@ internal class RestaurantListViewModelTest : ViewModelTest(){
     @ObsoleteCoroutinesApi
     @ExperimentalCoroutinesApi
     @Test
-    fun `test load restaurant list category ALL`() = runBlockingTest {
+    fun `test load restaurant list category CAFEDESSERT`() = runBlockingTest {
         val testObservable = restaurantListViewModel.restaurantListLiveData.test()
 
         restaurantListViewModel.fetchData()
