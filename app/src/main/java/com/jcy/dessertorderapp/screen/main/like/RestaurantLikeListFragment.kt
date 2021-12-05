@@ -1,5 +1,6 @@
 package com.jcy.dessertorderapp.screen.main.like
 
+import android.util.Log
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.jcy.dessertorderapp.databinding.FragmentRestaurantLikeListBinding
@@ -37,6 +38,11 @@ class RestaurantLikeListFragment : BaseFragment<RestaurantLikeListViewModel,Frag
                 }
             }
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchData()
     }
 
     override fun initViews() {
