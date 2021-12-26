@@ -14,7 +14,7 @@ Mocking Data를 활용한 내 주변의 카페를 찾고, 주문할 수 있는 �
 <img src="https://user-images.githubusercontent.com/63052973/146008608-e8c09186-dd95-45b3-a099-d601ee045dc5.png" width="200" height="400">
 <img src="https://user-images.githubusercontent.com/63052973/146008611-2b7d9a4b-c41d-441a-99d9-a7de5d7a7280.png" width="200" height="400">
 </p>
-
+<br/>
 ## 사용 기술 스택
 - MVVM -retrofit2, Coroutines, firebase, koin ,CameraX, GoogleMap,  Glide,  kotlin, room, viewBinding, liveData
 
